@@ -24,3 +24,8 @@ module.exports = Post
 
 
 // 将POST请求参数字符串解析成JSON
+
+function parseQueryStr (queryStr) {
+  let queryData = {}
+  let queryStrList = queryStr.split('&')
+}
