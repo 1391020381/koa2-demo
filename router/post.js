@@ -27,7 +27,7 @@ module.exports = Post
 // 将POST请求参数字符串解析成JSON
 
 function parseQueryStr (queryStr) {
-  console.log('queryStr:' + JSON.stringify(queryStr))
+  console.log('queryStr:' + JSON.stringify(queryStr))    // queryStr:"userName=justdoit&nickName=12321&email=000000"
   let queryData = {}
   let queryStrList = queryStr.split('&')
   console.log(queryStrList)
@@ -47,8 +47,13 @@ function parsePostData (ctx) {
     try {
       let postData = ""
       ctx.req.addListener('data', (data) => {
+        //  data:{"type":"Buffer","data":[117,115,101,114,78,97,109,101,61,106,117,115,116,100,111,105,116,38,110,105,99,107,78,97,109,101,61,49,50,51,50,49,38,101,109,97,105,108,61,48,48,48,48,48,48]}
+        console.log('data:' + JSON.stringify(data))
+        // dataString:"userName=justdoit&nickName=12321&email=000000"
+        console.log('dataString:' + JSON.stringify(data.toString()))
         postData += data
       })
+      // form表单使用原生的事件拼接后 queryStr:"userName=justdoit&nickName=12321&email=000000"
       ctx.req.addListener("end", function () {
         let parseData = parseQueryStr(postData)
         resolve(parseData)
