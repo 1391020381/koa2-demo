@@ -10,6 +10,8 @@ const bodyParser = new Router()
 
 bodyParser.get('/', async (ctx) => {
 
+
+console.log(ctx)
 })
 
 bodyParser.post('/',async (ctx)=>{
