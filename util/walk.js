@@ -15,7 +15,7 @@
    let dirList = [],fileList = []
    for(let i=0,len=files.length;i<len;i++){
     let item = files[i]
-    let itemArr = iem.split('\.')
+    let itemArr = item.split('\.')
     let itemMime = (itemArr.length>1)?itemArr[itemArr.length-1]:"undefined"
     if(typeof mimes[itemMime] === 'undefined'){
         dirList.push(files[i])

@@ -22,7 +22,7 @@
         let contentList = walk(reqPath)
         let html = `<ul>`
         for(let [index,item] of contentList.entries()){
-          html = `${html}<li><a href="${url === '/'?'':url}/${item}"></a>`  
+          html = `${html}<li><a href="${url === '/'?'':url}/${item}">${item}</a>`  
         }
         html =`${html}</ul>`
         

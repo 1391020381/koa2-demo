@@ -23,8 +23,10 @@ const file = require('./file')
 async function content(ctx, fullStaticPath) {
     // 封装请求资源的完整的绝对路径
     let reqPath = path.join(fullStaticPath, ctx.url)
+    console.log('reqPth:',reqPath)
     // 判断请求路径是否为存在的目录或者文件
     let exist = fs.existsSync(reqPath)
+    console.log('exist:',exist)
     // 返回请求内容,默认为空
     let content = ''
     if (!exist) {
@@ -36,7 +38,7 @@ async function content(ctx, fullStaticPath) {
         // 从 fs.stat()、fs.lstat()和 fs.fstat()及其同步版本返回的对象都是该类型
         // stats.isFile()  stats.isDirectory()等
         let stat = fs.statSync(reqPath)
-        if (stat.isCharacterDevice()) {
+        if (stat.isDirectory()) {
             // 如果为目录,则渲染读取目录内容
             content = dir(ctx.url, reqPath)
 
