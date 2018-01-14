@@ -4,16 +4,28 @@
  * **/
 
 const Router = require('koa-router')
-const koaBodyParser = require('koa-bodyparser')
-
 const bodyParser = new Router()
 
 bodyParser.get('/', async (ctx) => {
-
-
-
+    let html = `
+    <h1>koa2 request post demo</h1>
+    <form method="POST" action="/post/form/koaBodyParser">
+    <p>userName</p>
+    <input name ="userName"><br/>
+    <p>nickName</p>
+    <input name="nickName"><br/>
+    <p>email</p>
+    <input name="email"><br/>
+    <button type="submit"> submit</button>
+  </form>
+    `
+    ctx.body = html
 })
 
 bodyParser.post('/',async (ctx)=>{
-
+let postData =ctx.request.body
+let test = ctx.req.body
+ctx.body = postData
 })
+
+module.exports = bodyParser
