@@ -4,9 +4,38 @@ const path = require('path')
 const koaBodyParser = require('koa-bodyparser')
 // const static = require('./middleware/static')
 const koaStatic = require('koa-static')
+const session = require('koa-session-minimal')
+const MysqlSession = require('koa-mysql-session')
+const router = require('./router')
 app.use(koaBodyParser())
 
-const router = require('./router')
+// 配置存储session信息的mysql
+
+let store = new MysqlSession({
+  user: 'root',
+  password: 'abc123',
+  database: 'koa_demo',
+  host: 'localhost'
+})
+
+// 存放sessionId的cookie配置
+
+let cookie = {
+  maxAge: '',//
+  expires: '',
+  path: '',
+  domain: '',
+  httpOnly: '',
+  overwrite: '',
+  secure: '',
+  sameSite: '',
+  signed: ''
+}
+app.use(session({
+  key: 'SESSION_ID',
+  store: store,
+  cookie: cookie
+}))
 
 app.use(async (ctx, next) => {
   console.log('ctx.url:', ctx.url)
@@ -19,6 +48,10 @@ app.use(async (ctx, next) => {
       httpOnly: false,   // 是否只用于http请求中获取
       overwrite: false  // 是否允许重写
     })
+    ctx.session = {
+      user_id: Math.random().toString(36).substr(2),
+      count: 0
+    }
   }
   next()
 })
