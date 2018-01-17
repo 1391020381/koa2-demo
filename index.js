@@ -6,45 +6,54 @@ const koaBodyParser = require('koa-bodyparser')
 const koaStatic = require('koa-static')
 const session = require('koa-session-minimal')
 const MysqlSession = require('koa-mysql-session')
-
+const views = require('koa-views')
 const router = require('./router')
-// 加载模板引擎
-// Must be used before any router is used
-// app.use(views(path.join(__dirname, './views'), {
-//   extensions: 'ejs'
-// }))
+
+
 app.use(koaBodyParser())
 
 // 配置存储session信息的mysql
 
-let store = new MysqlSession({
-  user: 'root',
-  password: 'root',
-  database: 'koa2-demo',
-  host: 'localhost'
-})
+// let store = new MysqlSession({
+//   user: 'root',
+//   password: 'root',
+//   database: 'koa2-demo',
+//   host: 'localhost'
+// })
 
-// 存放sessionId的cookie配置
+// // 存放sessionId的cookie配置
 
-let cookie = {
-  maxAge: '',//
-  expires: '',
-  path: '',
-  domain: '',
-  httpOnly: 'false',
-  overwrite: '',
-  secure: '',
-  sameSite: '',
-  signed: ''
-}
-app.use(session({
-  key: 'SESSION_ID',
-  store: store,
-  cookie: cookie
-}))
+// let cookie = {
+//   maxAge: '',//
+//   expires: '',
+//   path: '',
+//   domain: '',
+//   httpOnly: 'false',
+//   overwrite: '',
+//   secure: '',
+//   sameSite: '',
+//   signed: ''
+// }
+// app.use(session({
+//   key: 'SESSION_ID',
+//   store: store,
+//   cookie: cookie
+// }))
+// 静态资源目录对于相对入口文件index.js的路径
+const staticPath = './static'
+app.use(koaStatic(path.join(__dirname, staticPath)))
+// app.use(static())  //中间件必须是函数(static必须返回一个函数)
 
-app.use(async (ctx, next) => {
-  if (ctx.url === '/page/helloworld') {  // 要使cookie中种下 session_id 就不能在此，设置 cookies
+// 加载模板引擎
+// Must be used before any router is used
+app.use(views(__dirname + '/views', {
+  extension: 'ejs'
+}));
+
+
+
+//app.use(async (ctx, next) => {
+ // if (ctx.url === '/page/helloworld') {  // 要使cookie中种下 session_id 就不能在此，设置 cookies
     // ctx.cookies.set('cid', 'hello,world', {  //
     //   domain: 'localhost',// 写cookie所在的域名
     //   path: '/',     // 写cookie所在的路径
@@ -57,15 +66,12 @@ app.use(async (ctx, next) => {
     //   user_id: Math.random().toString(36).substr(2),
     //   count: 0
     // }
-  }
-  next()
-})
+// }
+// next()
+//})
 app.use(router.routes(), router.allowedMethods())
 
-// 静态资源目录对于相对入口文件index.js的路径
-const staticPath = './static'
-app.use(koaStatic(path.join(__dirname, staticPath)))
-// app.use(static())  //中间件必须是函数(static必须返回一个函数)
+
 
 app.listen(3000, () => {
   console.log(`koa2 is listening 3000`)

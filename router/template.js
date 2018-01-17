@@ -1,8 +1,8 @@
 const Router = require('koa-router')
-const views = require('koa-views')
+// const views = require('koa-views')
 const template = new Router()
-const path = require('path')
-const path_dirname = require('../path')
+//const path = require('path')
+//const path_dirname = require('../path')
 
 // 加载模板引擎
 // Must be used before any router is used
@@ -11,10 +11,10 @@ const path_dirname = require('../path')
 // }))
 
 
-template.use(views(path.join(path_dirname, './views'), {map: {html: 'ejs'}}))    // 路由中间件
+// template.use(views(path.join(path_dirname, './views'), {map: {html: 'ejs'}}))    // 路由中间件
 
 
-console.log('path_dirname', path.join(path_dirname, './views'))
+// console.log('path_dirname', path.join(path_dirname, './views'))
 template.get('/index', async (ctx) => {
   console.log(ctx, ctx.render)
   let title = 'justdoit'
