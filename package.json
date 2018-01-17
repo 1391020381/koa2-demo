@@ -9,11 +9,13 @@
   "author": "",
   "license": "ISC",
   "dependencies": {
+    "ejs": "^2.5.7",
     "koa": "^2.4.1",
     "koa-bodyparser": "^3.2.0",
     "koa-mysql-session": "0.0.2",
     "koa-router": "^7.3.0",
     "koa-session-minimal": "^3.0.4",
-    "koa-static": "^4.0.2"
+    "koa-static": "^4.0.2",
+    "koa-views": "^6.1.3"
   }
 }

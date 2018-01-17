@@ -6,7 +6,13 @@ const koaBodyParser = require('koa-bodyparser')
 const koaStatic = require('koa-static')
 const session = require('koa-session-minimal')
 const MysqlSession = require('koa-mysql-session')
+
 const router = require('./router')
+// 加载模板引擎
+// Must be used before any router is used
+// app.use(views(path.join(__dirname, './views'), {
+//   extensions: 'ejs'
+// }))
 app.use(koaBodyParser())
 
 // 配置存储session信息的mysql
