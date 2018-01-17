@@ -13,8 +13,8 @@ app.use(koaBodyParser())
 
 let store = new MysqlSession({
   user: 'root',
-  password: 'abc123',
-  database: 'koa_demo',
+  password: 'root',
+  database: 'koa2-demo',
   host: 'localhost'
 })
 
@@ -25,7 +25,7 @@ let cookie = {
   expires: '',
   path: '',
   domain: '',
-  httpOnly: '',
+  httpOnly: 'false',
   overwrite: '',
   secure: '',
   sameSite: '',
@@ -39,19 +39,19 @@ app.use(session({
 
 app.use(async (ctx, next) => {
   console.log('ctx.url:', ctx.url)
-  if (ctx.url === '/page/helloworld') {
-    ctx.cookies.set('cid', 'hello,world', {  //
-      domain: 'localhost',// 写cookie所在的域名
-      path: '/',     // 写cookie所在的路径
-      maxAge: 10 * 60 * 1000,  // cookie有效时长
-      expires: new Date('2018-2-15'),  // cookie失效时间
-      httpOnly: false,   // 是否只用于http请求中获取
-      overwrite: false  // 是否允许重写
-    })
-    ctx.session = {
-      user_id: Math.random().toString(36).substr(2),
-      count: 0
-    }
+  if (ctx.url === '/page/helloworld') {  // 要使cookie中种下 session_id 就不能在此，设置 cookies
+    // ctx.cookies.set('cid', 'hello,world', {  //
+    //   domain: 'localhost',// 写cookie所在的域名
+    //   path: '/',     // 写cookie所在的路径
+    //   maxAge: 10 * 60 * 1000,  // cookie有效时长
+    //   expires: new Date('2018-2-15'),  // cookie失效时间
+    //   httpOnly: false,   // 是否只用于http请求中获取
+    //   overwrite: false  // 是否允许重写
+    // })
+    // ctx.session = {
+    //   user_id: Math.random().toString(36).substr(2),
+    //   count: 0
+    // }
   }
   next()
 })
