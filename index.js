@@ -52,23 +52,23 @@ app.use(views(__dirname + '/views', {
 
 
 
-//app.use(async (ctx, next) => {
- // if (ctx.url === '/page/helloworld') {  // 要使cookie中种下 session_id 就不能在此，设置 cookies
-    // ctx.cookies.set('cid', 'hello,world', {  //
-    //   domain: 'localhost',// 写cookie所在的域名
-    //   path: '/',     // 写cookie所在的路径
-    //   maxAge: 10 * 60 * 1000,  // cookie有效时长
-    //   expires: new Date('2018-2-15'),  // cookie失效时间
-    //   httpOnly: false,   // 是否只用于http请求中获取
-    //   overwrite: false  // 是否允许重写
-    // })
-    // ctx.session = {
-    //   user_id: Math.random().toString(36).substr(2),
-    //   count: 0
-    // }
-// }
-// next()
-//})
+app.use(async (ctx, next) => {
+ if (ctx.url === '/page/helloworld') {  // 要使cookie中种下 session_id 就不能在此，设置 cookies
+    ctx.cookies.set('cid', 'hello,world', {  //
+      domain: 'localhost',// 写cookie所在的域名
+      path: '/',     // 写cookie所在的路径
+      maxAge: 10 * 60 * 1000,  // cookie有效时长
+      expires: new Date('2018-2-15'),  // cookie失效时间
+      httpOnly: false,   // 是否只用于http请求中获取
+      overwrite: false  // 是否允许重写
+    })
+    ctx.session = {
+      user_id: Math.random().toString(36).substr(2),
+      count: 0
+    }
+}
+await  next()  // 注意  ctx是异步的(你不知道用户什么时候访问)  中间件的异步处理方案  async和  await语法
+})
 app.use(router.routes(), router.allowedMethods())
 
 
