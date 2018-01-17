@@ -9,10 +9,10 @@ const path_dirname = require('../path')
 // app.use(views(path.join(__dirname, './views'), {
 //   extensions: 'ejs'
 // }))
-template.use(views(path.normalize(path_dirname + '/views'), {extensions: 'ejs'}))    // 路由中间件
-console.log('path_dirname', path_dirname + '/views')
+template.use(views(path.join(path_dirname, './views'), {extensions: 'ejs'}))    // 路由中间件
+console.log('path_dirname', path.join(path_dirname, './views'))
 template.get('/index', async (ctx) => {
-  console.log(ctx)
+  console.log(ctx, ctx.render)
   let title = 'justdoit'
   await ctx.render('index', {
     title

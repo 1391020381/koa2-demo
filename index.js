@@ -44,7 +44,6 @@ app.use(session({
 }))
 
 app.use(async (ctx, next) => {
-  console.log('ctx.url:', ctx.url)
   if (ctx.url === '/page/helloworld') {  // 要使cookie中种下 session_id 就不能在此，设置 cookies
     // ctx.cookies.set('cid', 'hello,world', {  //
     //   domain: 'localhost',// 写cookie所在的域名
