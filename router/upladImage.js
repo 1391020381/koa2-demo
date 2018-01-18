@@ -14,7 +14,6 @@ uploadImage.post('/api/picture/upload.json', async (ctx, next) => {
     fileType: 'album',
     path: serverFilePath
   })
-  await console.log(result)
   ctx.body = result
 })
 
