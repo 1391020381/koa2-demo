@@ -10,6 +10,7 @@ home.get('/', async (ctx) => {
   <li><a href="/post/form/koaBodyParser">/post/form/bodyParser</a></li>
     <li><a href="/template/index">/template/index</a></li>
      <li><a href="/busboy/uploadFile">/busboy/uploadFile</a></li>
+      <li><a href="/busboy/uploadImage">/busboy/uploadFile</a></li>
 </ul>
   `
   ctx.body = html

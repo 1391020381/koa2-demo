@@ -4,13 +4,11 @@ const path = require('path')
 const koaBodyParser = require('koa-bodyparser')
 // const static = require('./middleware/static')
 const koaStatic = require('koa-static')
+// const convert = require('koa-convert')
 const session = require('koa-session-minimal')
 const MysqlSession = require('koa-mysql-session')
 const views = require('koa-views')
 const router = require('./router')
-
-
-app.use(koaBodyParser())
 
 // 配置存储session信息的mysql
 
@@ -39,6 +37,7 @@ app.use(koaBodyParser())
 //   store: store,
 //   cookie: cookie
 // }))
+
 // 静态资源目录对于相对入口文件index.js的路径
 const staticPath = './static'
 app.use(koaStatic(path.join(__dirname, staticPath)))
@@ -49,11 +48,11 @@ app.use(koaStatic(path.join(__dirname, staticPath)))
 app.use(views(__dirname + '/views', {
   extension: 'ejs'
 }));
-
+app.use(koaBodyParser())
 
 
 app.use(async (ctx, next) => {
- if (ctx.url === '/page/helloworld') {  // 要使cookie中种下 session_id 就不能在此，设置 cookies
+  if (ctx.url === '/page/helloworld') {  // 要使cookie中种下 session_id 就不能在此，设置 cookies
     ctx.cookies.set('cid', 'hello,world', {  //
       domain: 'localhost',// 写cookie所在的域名
       path: '/',     // 写cookie所在的路径
@@ -66,11 +65,10 @@ app.use(async (ctx, next) => {
       user_id: Math.random().toString(36).substr(2),
       count: 0
     }
-}
-await  next()  // 注意  ctx是异步的(你不知道用户什么时候访问)  中间件的异步处理方案  async和  await语法
+  }
+  await  next()  // 注意  ctx是异步的(你不知道用户什么时候访问)  中间件的异步处理方案  async和  await语法
 })
 app.use(router.routes(), router.allowedMethods())
-
 
 
 app.listen(3000, () => {
