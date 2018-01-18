@@ -1,4 +1,5 @@
 # 学习stream
+[nodejs stream 手册](https://github.com/jabez128/stream-handbook)
 [nodeschool](https://nodeschool.io/)
 [csdn](http://blog.csdn.net/vieri_32/article/details/48376547)
 ## 简单stream进行pipe
