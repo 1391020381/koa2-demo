@@ -16,7 +16,6 @@ const template = new Router()
 
 // console.log('path_dirname', path.join(path_dirname, './views'))
 template.get('/index', async (ctx) => {
-  console.log(ctx, ctx.render)
   let title = 'justdoit'
   await ctx.render('index', {
     title
