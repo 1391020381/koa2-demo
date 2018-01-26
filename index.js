@@ -12,31 +12,31 @@ const router = require('./router')
 
 // 配置存储session信息的mysql
 
-// let store = new MysqlSession({
-//   user: 'root',
-//   password: 'root',
-//   database: 'koa2-demo',
-//   host: 'localhost'
-// })
+let store = new MysqlSession({
+  user: 'root',
+  password: 'root',
+  database: 'koa2-demo',
+  host: 'localhost'
+})
 
-// // 存放sessionId的cookie配置
+// 存放sessionId的cookie配置
 
-// let cookie = {
-//   maxAge: '',//
-//   expires: '',
-//   path: '',
-//   domain: '',
-//   httpOnly: 'false',
-//   overwrite: '',
-//   secure: '',
-//   sameSite: '',
-//   signed: ''
-// }
-// app.use(session({
-//   key: 'SESSION_ID',
-//   store: store,
-//   cookie: cookie
-// }))
+let cookie = {
+  maxAge: '',//
+  expires: '',
+  path: '',
+  domain: '',
+  httpOnly: 'false',
+  overwrite: '',
+  secure: '',
+  sameSite: '',
+  signed: ''
+}
+app.use(session({
+  key: 'SESSION_ID',
+  store: store,
+  cookie: cookie
+}))
 
 // 静态资源目录对于相对入口文件index.js的路径
 const staticPath = './static'
@@ -53,14 +53,15 @@ app.use(koaBodyParser())
 
 app.use(async (ctx, next) => {
   if (ctx.url === '/page/helloworld') {  // 要使cookie中种下 session_id 就不能在此，设置 cookies
-    ctx.cookies.set('cid', 'hello,world', {  //
-      domain: 'localhost',// 写cookie所在的域名
-      path: '/',     // 写cookie所在的路径
-      maxAge: 10 * 60 * 1000,  // cookie有效时长
-      expires: new Date('2018-2-15'),  // cookie失效时间
-      httpOnly: false,   // 是否只用于http请求中获取
-      overwrite: false  // 是否允许重写
-    })
+    // ctx.cookies.set('cid', 'hello,world', {  //
+    //   domain: 'localhost',// 写cookie所在的域名
+    //   path: '/',     // 写cookie所在的路径
+    //   maxAge: 10 * 60 * 1000,  // cookie有效时长
+    //   expires: new Date('2018-2-15'),  // cookie失效时间
+    //   httpOnly: false,   // 是否只用于http请求中获取
+    //   overwrite: false  // 是否允许重写
+    // })
+    console.log('ctx:', ctx)   // 检查请求的cookie中是否有 SESSION_ID并同数据库中的校验
     ctx.session = {
       user_id: Math.random().toString(36).substr(2),
       count: 0
