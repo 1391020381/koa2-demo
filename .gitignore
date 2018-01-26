@@ -1,2 +1,4 @@
 /node_modules
-/koa2-blog/node_modules
+/koa2-blog/*/node_modules
+.idea
+.vscode
