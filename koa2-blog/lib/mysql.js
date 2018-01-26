@@ -78,3 +78,12 @@ let comment =
   avator VARCHAR(40) NOT NULL,
   PRIMARY KEY (id)
   );`
+
+let createTable = function (sql) {
+  return query(sql, [])
+}
+// 建表
+
+createTable(users)
+createTable(posts)
+createTable(comment)
