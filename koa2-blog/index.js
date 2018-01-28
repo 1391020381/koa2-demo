@@ -42,6 +42,6 @@ app.use(views(path.join(__dirname, './views'), {
 app.use(bodyParser({
   formLimit:'1mb'
 }))
-
+console.log(1)
 // 路由
 app.use(require(path.join(__dirname,'./routes/signup.js')).routes())
