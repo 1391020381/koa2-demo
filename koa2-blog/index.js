@@ -36,7 +36,7 @@ app.use(staticCache(path.join(__dirname, './public'), {dynamic: true}, {maxAge: 
 // 配置服务端模板渲染引擎的中间件
 
 app.use(views(path.join(__dirname, './views'), {
-  extensions: 'ejs'
+  extension: 'ejs'
 }))
 
 app.use(bodyParser({

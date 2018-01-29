@@ -45,7 +45,7 @@ let query = function (sql, values) {
  * **/
 
 let users =
-  `create table f not exists users(
+  `create table if not exists users(
    id INT NOT NULL AUTO_INCREMENT,
    name VARCHAR(100) NOT NULL,
    pass VARCHAR(100) NOT NULL,
