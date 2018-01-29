@@ -83,7 +83,36 @@ let createTable = function (sql) {
   return query(sql, [])
 }
 // 建表
+/**
+ *   users      posts    comment
+ *     id        id         id
+ *     name      name       name
+ *     pass      title      content
+ *     avator    content    moment
+ *     moment      md       postid
+ *                 uid       avator
+ *                 moment
+ *                 comments
+ *                 pv
+ *                 avator
+ * **/
 
+/**
+ *
+ id主键递增
+ name: 用户名
+ pass：密码
+ avator：头像
+ title：文章标题
+ content：文章内容和评论
+ md：markdown语法
+ uid：发表文章的用户id
+ moment：创建时间
+ comments：文章评论数
+ pv：文章浏览数
+ postid：文章id
+ *
+ * **/
 createTable(users)
 createTable(posts)
 createTable(comment)
@@ -95,12 +124,12 @@ let insertdata = function (value) {
 }
 // 删除用户
 let deleteUserData = function (name) {
-  let _sql = `delete from users where name="${name}"`
+  let _sql = `delete from users where name=${name}`
   return query(_sql)
 }
 // 查找用户
 let findUserData = function (name) {
-  let _sql = `select * from users where name="${name}"`
+  let _sql = `select * from users where name=${name}`
   return query(_sql)
 }
 // 发表文章
@@ -126,12 +155,12 @@ let insertComment = function (value) {
 }
 // 通过名字查找用户
 let findDataByName = function (name) {
-  let _sql = `select * from users where name="${name}";`
+  let _sql = `select * from users where name=${name};`
   return query(_sql)
 }
 // 通过文章的名字查找用户
 let findDataByUser = function (name) {
-  let _sql = `select * from posts where name="${name}"`
+  let _sql = `select * from posts where name=${name}`
   return query(_sql)
 }
 // 通过文章的id查找
@@ -139,3 +168,37 @@ let findDataById = function (id) {
   let _sql = `select * from posts where id="${id}"`
   return query(_sql)
 }
+// 通过评论id查找
+let findCommentById = function (id) {
+  let _sql = `select * from comment where postid=${id};`
+  return query(_sql)
+}
+// 查询所有文章
+
+let findAllPost = function () {
+  let _sql = `select * from posts`
+  return query(_sql)
+}
+// 查询分页文章
+
+/**
+ *
+ limit是mysql的语法
+ select * from table limit m,n
+ 其中m是指记录开始的index，从0开始，表示第一条记录
+ n是指从第m+1条开始，取n条。
+ select * from tablename limit 2,4
+ 即取出第3条至第6条，4条记录
+ * **/
+let findPostByPage = function (page) {  //  n是指从第 m+1条开始,取 n条
+  let _sql = `select * from posts limit ${(page - 1) * 10},10`
+  return query(_sql)
+}
+// 查询个人分页文章
+let findPostByUserPage = function (name, page) {   // ES6字符串模板
+  let _sql = `select * from posts where name=${name} order by id desc limit ${(page - 1) * 10},10`
+  return query(_sql)
+}
+// 更新修改文章
+
+
