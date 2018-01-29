@@ -87,3 +87,55 @@ let createTable = function (sql) {
 createTable(users)
 createTable(posts)
 createTable(comment)
+
+// 注册用户
+let insertdata = function (value) {
+  let _sql = "insert into users set name=?,pass=?,avator=?,moment=?;"
+  return query(_sql, value)
+}
+// 删除用户
+let deleteUserData = function (name) {
+  let _sql = `delete from users where name="${name}"`
+  return query(_sql)
+}
+// 查找用户
+let findUserData = function (name) {
+  let _sql = `select * from users where name="${name}"`
+  return query(_sql)
+}
+// 发表文章
+let insertPost = function (value) {
+  let _sql = `insert into posts set name=?,title=?,content=?,md=?,uid=?,moment=?,avator=?;`
+  return query(_sql)
+}
+// 更新文章评论数
+let updatePostComment = function (value) {
+  let _sql = `update posts set comments=? where id=?`
+  return query(_sql)
+}
+// 更新浏览数
+
+let updatePostPv = function (value) {
+  let _sql = `update posts set pv=?where id=?`
+  return query(_sql, value)
+}
+// 发表评论
+let insertComment = function (value) {
+  let _sql = "insert into comment set name=?,content=?,moment=?,postid=?,avator=?;"
+  return query(_sql, value)
+}
+// 通过名字查找用户
+let findDataByName = function (name) {
+  let _sql = `select * from users where name="${name}";`
+  return query(_sql)
+}
+// 通过文章的名字查找用户
+let findDataByUser = function (name) {
+  let _sql = `select * from posts where name="${name}"`
+  return query(_sql)
+}
+// 通过文章的id查找
+let findDataById = function (id) {
+  let _sql = `select * from posts where id="${id}"`
+  return query(_sql)
+}
