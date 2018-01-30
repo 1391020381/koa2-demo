@@ -118,7 +118,7 @@ createTable(posts)
 createTable(comment)
 
 // 注册用户
-let insertdata = function (value) {
+let insertData = function (value) {
   let _sql = "insert into users set name=?,pass=?,avator=?,moment=?;"
   return query(_sql, value)
 }
@@ -200,66 +200,66 @@ let findPostByUserPage = function (name, page) {   // ES6字符串模板
   return query(_sql)
 }
 // 更新修改文章
-let updatePost = function(values){
-let _sql = `update posts set title=?,content=?,md=?where id=?`
-return query(_sql,values)
+let updatePost = function (values) {
+  let _sql = `update posts set title=?,content=?,md=?where id=?`
+  return query(_sql, values)
 }
 
 // 删除文章
-let deletePost = function(id){
-  let _sql  = `delete from posts where id =${id}`
+let deletePost = function (id) {
+  let _sql = `delete from posts where id =${id}`
   return query(_sql)
 }
 // 删除评论
-let deleteComment = function(id){
+let deleteComment = function (id) {
   let _sql = `delete from comments where id=${id}`
   return query(_sql)
 }
 // 删除所有评论
-let deleteAllPostComment = function(id){
+let deleteAllPostComment = function (id) {
   let _sql = `delete from comment where postid=${id}`
   return query(_sql)
 }
 
 // 查找评论数
-let findCommentLength = function(id){
+let findCommentLength = function (id) {
   let _sql = `select content from comment where postid in(select id from posts where id=${id})`
   return query(_sql)
 }
 // 滚动无限加载数据
 
-let findPageById =function(page){
-  let _sql = `select * from posts limit ${(page-1)*5},5`
+let findPageById = function (page) {
+  let _sql = `select * from posts limit ${(page - 1) * 5},5`
   return query(_sql)
 }
 // 评论分页
- let findCommentByPage = function(page,postId){
-   let _sql = `select * from comment where postid=${postId} order by id desc limit ${page-1}*10,10`
-   return query(_sql)
- }
- module.exports = {
+let findCommentByPage = function (page, postId) {
+  let _sql = `select * from comment where postid=${postId} order by id desc limit ${page - 1}*10,10`
+  return query(_sql)
+}
+module.exports = {
   query,
-	createTable,
-	insertData,
-  	deleteUserData,
-  	findUserData,
-	findDataByName,
-  	insertPost,
-  	findAllPost,
-  	findPostByPage,
-	findPostByUserPage,
-	findDataByUser,
-	findDataById,
-	insertComment,
-	findCommentById,
-	updatePost,
-	deletePost,
-	deleteComment,
-	findCommentLength,
-	updatePostComment,
-	deleteAllPostComment,
-	updatePostPv,
-	findPageById,
-	findCommentByPage
- }
+  createTable,
+  insertData,
+  deleteUserData,
+  findUserData,
+  findDataByName,
+  insertPost,
+  findAllPost,
+  findPostByPage,
+  findPostByUserPage,
+  findDataByUser,
+  findDataById,
+  insertComment,
+  findCommentById,
+  updatePost,
+  deletePost,
+  deleteComment,
+  findCommentLength,
+  updatePostComment,
+  deleteAllPostComment,
+  updatePostPv,
+  findPageById,
+  findCommentByPage
+}
 
