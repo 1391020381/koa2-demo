@@ -16,7 +16,7 @@ const pool = mysql.createPool({
 let query = function (sql, values) {
   return new Promise((resolve, reject) => {
     pool.getConnection((err, connection) => {
-      if (er) {
+      if (err) {
         reject(err)
       } else {
         connection.query(sql, values, (err, rows) => {

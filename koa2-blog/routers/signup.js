@@ -11,7 +11,8 @@ const router = new Router()
 
 router.get('/signup', async (ctx, next) => {
   // await checkNotLogin(ctx)
-  await ctx.render('signup')
+  console.log('session:', ctx.session)
+  await ctx.render('signup', {session: ctx.session})
 })
 
 router.post('/signup', async (ctx, next) => {

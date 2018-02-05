@@ -8,7 +8,43 @@
   <title>koa2-blog</title>
   <link rel="icon" href="http://www.wclimb.site/images/avatar.png">
   <link rel="stylesheet" href="/index.css">
-  <script src="http://cdn.bootcss./jquery/3.2.1/jquery.min.js"></script>
+  <!--<script src="http://cdn.bootcss./jquery/3.2.1/jquery.min.js"></script>-->
+  <script src="http://code.jquery.com/jquery-3.3.1.min.js"></script>
+  <script>
+    function fade (txt) {  // 校验用户输入错误后的调用的函数(显示错误信息)
+      $('.message').text(txt)
+      $('.message').animate({
+        top: 0
+      })
+      setTimeout(function () {
+        $('.message').animate({
+          top: '-100%'
+        }, 1500)
+      })
+    }
+
+    $(function () {
+      $('.signout').click(() => {
+        $.ajax({
+          url: '/signout',
+          type: 'GET',
+          cache: fase,
+          dataType: 'json',
+          success: function (msg) {
+            if (msg) {
+              fade('登出成功')
+              setTimeout(() => {
+                window.location.href = '/posts'
+              }, 1500)
+            }
+          },
+          error: function () {
+            alert('异常')
+          }
+        })
+      })
+    })
+  </script>
 </head>
 <body>
 <header>
