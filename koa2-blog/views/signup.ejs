@@ -24,7 +24,7 @@
       $('.submit').click()
     }
   })
-  $('#avator').change(() => {  // 上传头像
+  $('#avator').change(function () {  // 上传头像   箭头函数的this被设置为外层执行上下文。s
     if (this.files.length != 0) {
       let file = this.files[0]
       let reader = new FileReader()
