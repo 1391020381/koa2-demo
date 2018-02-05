@@ -44,7 +44,12 @@ router.post('/signup', async (ctx, next) => {
         if (err) throw err
         console.log('头像上传成功')
       })
-      await userModel.insertData([user.name,md5(user.pass),getName,moment().format('YYYY-MM')])
+      await userModel.insertData([user.name, md5(user.pass), getName, moment().format('YYYY-MM')]).then(res => {
+        console.log('注册成功', res)
+        ctx.body = {
+          data: 3
+        }
+      })
     }
   })
 })
