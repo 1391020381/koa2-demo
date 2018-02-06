@@ -19,7 +19,7 @@
     }
   })
   $('.submit').click(() => {
-    if ($('input[name=name]').val().trim() == '' || $('input[name=password]').val().trim()) {
+    if ($('input[name=name]').val().trim() === '' || $('input[name=password]').val().trim() === '') {
       fade('请输入用户名或密码')
     } else {
       $.ajax({
@@ -28,7 +28,7 @@
         type: 'POST',
         dataType: 'json',
         success: function (msg) {
-          if (!imsg) {
+          if (!msg) {
             $('input').val('')
             fade('用户名或密码错误')
           } else {
