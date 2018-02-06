@@ -45,7 +45,7 @@ app.use(bodyParser({
 
 // 路由
 app.use(require(path.join(__dirname, './routers/signup.js')).routes())
-
+app.use(require(path.join(__dirname, './routers/signin.js')).routes())
 app.listen(config.port, () => {
   console.log('app is listen ', config.port)
 })

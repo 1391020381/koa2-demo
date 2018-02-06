@@ -149,7 +149,7 @@ let updatePostPv = function (value) {
   return query(_sql, value)
 }
 // 发表评论
-let insertComment = function (value) {
+let insertComment = function (value) {   // 一般来说，？？代表table name和column name，？代表动态的值
   let _sql = "insert into comment set name=?,content=?,moment=?,postid=?,avator=?"
   return query(_sql, value)
 }
