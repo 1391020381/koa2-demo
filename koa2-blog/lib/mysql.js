@@ -135,7 +135,7 @@ let findUserData = function (name) {  // 注意  ${name} 需要用  ""包含起�
 // 发表文章
 let insertPost = function (value) {
   let _sql = `insert into posts set name=?,title=?,content=?,md=?,uid=?,moment=?,avator=?;`
-  return query(_sql)
+  return query(_sql, value)
 }
 // 更新文章评论数
 let updatePostComment = function (value) {
@@ -190,13 +190,13 @@ let findAllPost = function () {
  select * from tablename limit 2,4
  即取出第3条至第6条，4条记录
  * **/
-let findPostByPage = function (page) {  //  n是指从第 m+1条开始,取 n条
-  let _sql = `select * from posts limit "${(page - 1) * 10}",10`
+let findPostByPage = function (page) {  //  n是指从第 m+1条开始,取 n条  ${(page - 1) * 10} 不用 引号括起来
+  let _sql = `select * from posts limit ${(page - 1) * 10},10`
   return query(_sql)
 }
 // 查询个人分页文章
-let findPostByUserPage = function (name, page) {   // ES6字符串模板
-  let _sql = `select * from posts where name="${name}" order by id desc limit "${(page - 1) * 10}",10`
+let findPostByUserPage = function (name, page) {   // ES6字符串模板  ${(page - 1) * 10} 不用 引号括起来    但  ${name}需要
+  let _sql = `select * from posts where name="${name}" order by id desc limit ${(page - 1) * 10},10`
   return query(_sql)
 }
 // 更新修改文章
@@ -229,12 +229,12 @@ let findCommentLength = function (id) {
 // 滚动无限加载数据
 
 let findPageById = function (page) {
-  let _sql = `select * from posts limit "${(page - 1) * 5}",5`
+  let _sql = `select * from posts limit ${(page - 1) * 5},5`
   return query(_sql)
 }
 // 评论分页
 let findCommentByPage = function (page, postId) {
-  let _sql = `select * from comment where postid="${postId}" order by id desc limit "${(page - 1)*10}",10`
+  let _sql = `select * from comment where postid="${postId}" order by id desc limit ${(page - 1) * 10},10`
   return query(_sql)
 }
 module.exports = {

@@ -11,7 +11,7 @@ router.get('/', async (ctx, next) => {
 
 
 router.get('/posts', async (ctx, next) => {   // Get raw query string void of ?.
-  console.log('querystring', ctx.request.querystring)
+  console.log('querystring', ctx.request.querystring, ctx.request)
   let res,
     postsLength,
     name = decodeURIComponent(ctx.request.querystring.split('=')[1])
@@ -28,7 +28,7 @@ router.get('/posts', async (ctx, next) => {   // Get raw query string void of ?.
       postPageLength: Math.ceil(postsLength / 10)
     })
   } else {  // 所有的文章
-    await userModel.findPostByUserPage(1).then(result => {
+    await userModel.findPostByPage(1).then(result => {
       res = result
     })
     await userModel.findAllPost().then(result => {
@@ -64,3 +64,37 @@ router.post('/posts/self/page', async (ctx, next) => {
     console.log(error)
   })
 })
+
+
+// 发表文章页面
+
+router.get('/create', async (ctx, next) => {
+  await ctx.render('create', {
+    session: ctx.session
+  })
+})
+
+router.post('/create', async (ctx, next) => {
+  // 将前端的数据插入数据库
+  console.log('createCtx:', ctx)
+  console.log('createSession:', ctx.session)
+  let title = ctx.request.body.title,
+    content = ctx.request.body.content,
+    id = ctx.session.id,
+    name = ctx.session.user,
+    time = moment().format('YYYY-MM-DD HH:mm:ss'),
+    avator
+
+  // html的转义
+  await userModel.findUserData(ctx.session.user).then(result => {
+    avator = result[0].avator
+  })
+  await userModel.insertPost([name, title, content, md.render(content), id, time, avator]).then(result => {
+    ctx.body = true
+  }).catch(() => {
+    ctx.body = false
+  })
+})
+
+// post 发表文章
+module.exports = router
