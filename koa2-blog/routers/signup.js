@@ -16,6 +16,7 @@ router.get('/signup', async (ctx, next) => {
 })
 
 router.post('/signup', async (ctx, next) => {
+  console.log('password:', ctx.request.body.password, 'repeatpass:', ctx.request.body.repeatpass)
   let user = {
     name: ctx.request.body.name,
     pass: ctx.request.body.password,
@@ -41,7 +42,8 @@ router.post('/signup', async (ctx, next) => {
       let base64Data = user.avator.replace(/^data:image\/\w+;base64,/);
       let dataBuffer = new Buffer(base64Data, 'base64');
       let getName = Number(Math.random().toString().substr(3).toString())
-      await fs.writeFile(path.join(__dirname, '/public/images/', getName, '.png'), dataBuffer, err => {
+      console.log('path:', __dirname)
+      await fs.writeFile('./public/images/' + getName + '.png', dataBuffer, err => {
         if (err) throw err
         console.log('头像上传成功')
       })

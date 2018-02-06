@@ -128,9 +128,8 @@ let deleteUserData = function (name) {
   return query(_sql)
 }
 // 查找用户
-let findUserData = function (name) {
-  let _sql = `select * from users where name=${name}`
-  _sql = "select * from players where name=" + name
+let findUserData = function (name) {  // 注意  ${name} 需要用  ""包含起来
+  let _sql = `select * from users where name="${name}"`
   return query(_sql)
 }
 // 发表文章
@@ -156,7 +155,7 @@ let insertComment = function (value) {
 }
 // 通过名字查找用户
 let findDataByName = function (name) {
-  let _sql = `select * from users where name=${name}`
+  let _sql = `select * from users where name="${name}"`
   return query(_sql)
 }
 // 通过文章的名字查找用户
