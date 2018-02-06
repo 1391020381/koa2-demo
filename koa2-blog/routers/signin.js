@@ -13,6 +13,7 @@ router.get('/signin', async (ctx, next) => {
 })
 
 router.post('/signin', async (ctx, next) => {
+  console.log(ctx.req.body)
   let name = ctx.req.body.name
   let pass = ctx.req.body.password
   await userModel.findDataByName(name).then(result => {
