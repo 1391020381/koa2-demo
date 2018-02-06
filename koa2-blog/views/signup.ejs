@@ -40,13 +40,13 @@
         fade("请上传小于512kb的图片!")
         return
       }
-      reader.onload = function (e) {
+      reader.onload = function (e) {  // 处理load事件。该事件在读取操作完成时触发
         this.value = ''
         $('form .preview').attr('src', e.target.result)
         $('form .preview').fadeIn()
         $('#avatorVal').val(e.target.result)
       }
-      reader.readAsDataURL(file)
+      reader.readAsDataURL(file)  // 开始读取指定的Blob中的内容。一旦完成,result属性中就将包含一个 data: URL格式的字符串以表示所读取文件的内容。
     }
   })
   $('.submit').click(() => {
