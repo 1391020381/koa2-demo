@@ -8,6 +8,36 @@ const md = require('markdown-it')()   // markdown语法
 router.get('/', async (ctx, next) => {
   ctx.redirect('/posts')
 })
+
+// 发表文章页面
+router.get('/create', async (ctx, next) => {
+  await ctx.render('create', {
+    session: ctx.session
+  })
+})
+
+router.post('/create', async (ctx, next) => {
+  // 将前端的数据插入数据库
+  let title = ctx.request.body.title,
+    content = ctx.request.body.content,
+    id = ctx.session.id,
+    name = ctx.session.user,
+    time = moment().format('YYYY-MM-DD HH:mm:ss'),
+    avator
+
+  // html的转义
+  await userModel.findUserData(ctx.session.user).then(result => {
+    avator = result[0].avator
+  })
+  await userModel.insertPost([name, title, content, md.render(content), id, time, avator]).then(result => {
+    ctx.body = true
+  }).catch(() => {
+    ctx.body = false
+  })
+})
+
+// 文章列表
+
 router.get('/posts', async (ctx, next) => {   // Get raw query string void of ?.
   let res,
     postsLength,
@@ -41,54 +71,6 @@ router.get('/posts', async (ctx, next) => {   // Get raw query string void of ?.
   }
 })
 
-// 首页分页,每次输出10条
-router.post('/posts/page', async (ctx, next) => {
-  let page = ctx.request.body.page
-  await userModel.findPostByPage(page).then(result => {
-    ctx.body = result
-  }).catch(() => {
-    ctx.body = 'error'
-  })
-})
-
-// 个人文章分页,每次输出10条
-router.post('/posts/self/page', async (ctx, next) => {
-  let data = ctx.request.body
-  await userModel.findPostByUserPage(data.name, data.page).then(result => {
-    ctx.body = result
-  }).catch(error => {
-    console.log(error)
-  })
-})
-
-
-// 发表文章页面
-
-router.get('/create', async (ctx, next) => {
-  await ctx.render('create', {
-    session: ctx.session
-  })
-})
-
-router.post('/create', async (ctx, next) => {
-  // 将前端的数据插入数据库
-  let title = ctx.request.body.title,
-    content = ctx.request.body.content,
-    id = ctx.session.id,
-    name = ctx.session.user,
-    time = moment().format('YYYY-MM-DD HH:mm:ss'),
-    avator
-
-  // html的转义
-  await userModel.findUserData(ctx.session.user).then(result => {
-    avator = result[0].avator
-  })
-  await userModel.insertPost([name, title, content, md.render(content), id, time, avator]).then(result => {
-    ctx.body = true
-  }).catch(() => {
-    ctx.body = false
-  })
-})
 
 // 单篇文章页
 // req.params  另一种方法传参数给服务器,但是这不算是传统标准的做法,是属于 HTTP Routing的延伸应用
@@ -118,5 +100,61 @@ router.get('/posts/:postId', async (ctx, next) => {
     pageOne: pageOne || []
   })
 })
-// post 发表文章
+
+
+// 首页分页,每次输出10条
+router.post('/posts/page', async (ctx, next) => {
+  let page = ctx.request.body.page
+  await userModel.findPostByPage(page).then(result => {
+    ctx.body = result
+  }).catch(() => {
+    ctx.body = 'error'
+  })
+})
+
+// 个人文章分页,每次输出10条
+router.post('/posts/self/page', async (ctx, next) => {
+  let data = ctx.request.body
+  await userModel.findPostByUserPage(data.name, data.page).then(result => {
+    ctx.body = result
+  }).catch(error => {
+    console.log(error)
+  })
+})
+
+
+// 发表评论
+
+router.post('/:postId', async (ctx, next) => {
+  let name = ctx.session.user,
+    content = ctx.request.body.content,
+    postId = ctx.params.postId,
+    res_comments,
+    time = moment().format('YYYY-MM-DD HH:mm:ss'),
+    avator
+  await userModel.findUserData(ctx.session.user).then(res => {
+    avator = res[0].avator
+  })
+  await  userModel.insertComment([name, md.render(content), time, postId, avator])
+  await userModel.findCommentById(postId).then(result => {
+    res_comments = parseInt(result[0].comments)
+    res_comments += 1
+  })
+  await userModel.updatePostComment([res_comments, postId]).then(() => {
+    ctx.body = true
+  }).catch(err => {
+    ctx.body = false
+  })
+})
+
+// 评论分页
+router.post('/posts/:postId/commentPage', async function (ctx) {
+  let postId = ctx.params.postId
+  page = ctx.reques.body.page
+  await userModel.findCommentByPage(page, postId).then(res => {
+    ctx.body = res
+  }).catch(() => {
+    ctx.body = 'error'
+  })
+})
 module.exports = router
