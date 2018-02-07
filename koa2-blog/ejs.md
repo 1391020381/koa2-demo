@@ -10,3 +10,4 @@
          <%- include('user/show', {user: user}); %>
        <% }); %>
      </ul>
+7. 注意前后端的分离和功能的联系     

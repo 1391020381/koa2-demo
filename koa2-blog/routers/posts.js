@@ -96,5 +96,35 @@ router.post('/create', async (ctx, next) => {
   })
 })
 
+// 单篇文章页
+// req.params  另一种方法传参数给服务器,但是这不算是传统标准的做法,是属于 HTTP Routing的延伸应用
+// req.params：解析URL中占位符,如/:name,访问/haha ,req.params的值为{name:'haha'}
+router.get('/posts/:postId', async (ctx, next) => {
+  let comment_res,
+    res,
+    pageOne,
+    res_pv
+  await userModel.findDataById(ctx.params.postId).then(result => {
+    res = result
+    res_pv = parseInt((result[0]['pv']))
+    res_pv += 1
+  })
+  await userModel.updatePostPv([res_pv, ctx.params.postId])
+  await userModel.findCommentByPage(1, ctx.params.postId).then(result => {
+    pageOne = result
+  })
+  await  userModel.findCommentById(ctx.params.postId).then(result => {
+    comment_res = result
+  })
+  await ctx.render('sPost', {
+    session: ctx.session,
+    posts: res[0],
+    commentLength: comment_res.length,
+    commentPageLength: Math.ceil(comment_res.length / 10),
+    pageOne: pageOne
+  })
+
+
+})
 // post 发表文章
 module.exports = router

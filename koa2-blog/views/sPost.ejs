@@ -1,13 +1,64 @@
-<!doctype html>
-<html lang="en">
-<head>
-  <meta charset="UTF-8">
-  <meta name="viewport"
-        content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
-  <meta http-equiv="X-UA-Compatible" content="ie=edge">
-  <title>Document</title>
-</head>
-<body>
-
-</body>
-</html>
+<%- include("header",{type:''}) %>
+<div class="container">
+  <ul class="posts spost">
+    <li>
+      <div class="author">
+        <span title="<%= posts.name %>"><a href="/posts?author=<%= posts.name %>">author: <%= posts.name %></a></span>
+        <span>评论数: <%= posts.comments %></span>
+        <span>浏览量: <%= posts.pv %></span>
+      </div>
+      <div class="comment_pv">
+        <span><%= posts.moment %></span>
+      </div>
+      <a href="/posts/<%= posts.id %>">
+        <div class="title">
+          <img class="userAvator" src="../images/<%= posts.avator %>.png">
+          <%= posts.title %>
+        </div>
+        <div class="content markdown">
+          <%- posts.content %>
+        </div>
+      </a>
+      <div class="edit">
+        <% if(session && session.user === posts.name){ %>
+        <p><a href="<%= posts['id'] %>/edit">编辑</a></p>
+        <p><a class="delete_post">删除</a></p>
+        <% } %>
+      </div>
+    </li>
+  </ul>
+  <div class="comment_wrap">
+    <% if(session.user) { %>
+    <form class="form" method="post" action="/<%= posts.id %>">
+      <textarea id="spContent" name="content" cols="82"></textarea>
+      <div class="submit">发表留言</div>
+    </form>
+    <% } else { %>
+    <p class="tips">登录之后才可以评论哟</p>
+    <% } %>
+    <% if(commentPageLength){ %>
+    <div class="comment_list markdown">
+      <%= pageOne.forEach(function(res){ %>
+      <div class="cmt_content">
+        <div class="userMst">
+          <img src="../iamges/<%= res['avator'] %>.png" alt=""><span><%= res['name'] %></span>
+        </div>
+        <div class="cmt_detail">
+          <%- res['content'] %>
+        </div>
+        <span class="cmt_time"><%= res['moment'] %></span>
+        <span class="cmt_name">
+          <% if(session && session.user === res['name']){ %>
+          <a class="delete_comment" href="javascript:delete_comment(<%= res['id'] %>);">删除</a>
+          <% } %>
+        </span>
+      </div>
+      <% }) %>
+    </div>
+    <% } else { %>
+    <p class="tips">还没有评论,赶快去评论吧!</p>
+    <% } %>
+    <div style="margin-top:30px;" class="pagination" id="page"></div>
+  </div>
+</div>
+<% include footer %>
