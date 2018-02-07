@@ -105,20 +105,18 @@ router.get('/posts/:postId', async (ctx, next) => {
   })
   await userModel.updatePostPv([res_pv, ctx.params.postId])
   await userModel.findCommentByPage(1, ctx.params.postId).then(result => {
-    pageOne = result || 1
+    pageOne = result
   })
   await  userModel.findCommentById(ctx.params.postId).then(result => {
     comment_res = result
   })
   await ctx.render('sPost', {
     session: ctx.session,
-    posts: res[0],
+    posts: res[0] || [],
     commentLength: comment_res.length,
     commentPageLength: Math.ceil(comment_res.length / 10),
-    pageOne: pageOne
+    pageOne: pageOne || []
   })
-
-
 })
 // post 发表文章
 module.exports = router
