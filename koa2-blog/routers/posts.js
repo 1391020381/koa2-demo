@@ -140,7 +140,7 @@ router.post('/:postId', async (ctx, next) => {
     res_comments = parseInt(result[0].comments)
     res_comments += 1
   })
-  await userModel.updatePostComment([res_comments, postId]).then(() => {
+  await userModel.updatePostComment([res_comments, postId]).then((res) => {
     ctx.body = true
   }).catch(err => {
     ctx.body = false
