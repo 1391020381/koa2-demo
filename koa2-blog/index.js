@@ -10,7 +10,8 @@ const staticCache = require('koa-static-cache')
 const config = require('./config/default')
 
 const app = new Koa()
-
+// 配置静态资源加载中间件
+app.use(koaStatic(path.join(__dirname, './public')))
 // session存储配置
 const sessionMysqlConfig = {
   user: config.database.USERNAME,
@@ -26,8 +27,6 @@ app.use(session({
   store: new MysqlStore(sessionMysqlConfig)
 }))
 
-// 配置静态资源加载中间件
-app.use(koaStatic(path.join(__dirname, './public')))
 
 // 缓存
 
