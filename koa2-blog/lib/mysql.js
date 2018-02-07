@@ -145,7 +145,7 @@ let updatePostComment = function (value) {
 // 更新浏览数
 
 let updatePostPv = function (value) {
-  let _sql = `update posts set pv=?where id=?`
+  let _sql = `update posts set pv=? where id=?`
   return query(_sql, value)
 }
 // 发表评论

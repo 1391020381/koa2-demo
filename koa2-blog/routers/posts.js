@@ -8,10 +8,7 @@ const md = require('markdown-it')()   // markdown语法
 router.get('/', async (ctx, next) => {
   ctx.redirect('/posts')
 })
-
-
 router.get('/posts', async (ctx, next) => {   // Get raw query string void of ?.
-  console.log('querystring', ctx.request.querystring, ctx.request)
   let res,
     postsLength,
     name = decodeURIComponent(ctx.request.querystring.split('=')[1])
@@ -44,7 +41,6 @@ router.get('/posts', async (ctx, next) => {   // Get raw query string void of ?.
   }
 })
 
-
 // 首页分页,每次输出10条
 router.post('/posts/page', async (ctx, next) => {
   let page = ctx.request.body.page
@@ -76,8 +72,6 @@ router.get('/create', async (ctx, next) => {
 
 router.post('/create', async (ctx, next) => {
   // 将前端的数据插入数据库
-  console.log('createCtx:', ctx)
-  console.log('createSession:', ctx.session)
   let title = ctx.request.body.title,
     content = ctx.request.body.content,
     id = ctx.session.id,
@@ -111,7 +105,7 @@ router.get('/posts/:postId', async (ctx, next) => {
   })
   await userModel.updatePostPv([res_pv, ctx.params.postId])
   await userModel.findCommentByPage(1, ctx.params.postId).then(result => {
-    pageOne = result
+    pageOne = result || 1
   })
   await  userModel.findCommentById(ctx.params.postId).then(result => {
     comment_res = result
