@@ -39,7 +39,7 @@ router.post('/signup', async (ctx, next) => {
     } else {
       let base64Data = user.avator.replace(/^data:image\/\w+;base64,/, '');
       let dataBuffer = new Buffer(base64Data, 'base64');
-      let getName = Number(Math.random().toString().substr(3).toString() + Date.now())
+      let getName = Number(Math.random().toString().substr(3)).toString(36) + Date.now()
       await new Promise((resolve, reject) => {
         fs.writeFile('./public/images/' + getName + '.png', dataBuffer, err => {
           if (err) {
