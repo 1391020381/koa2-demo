@@ -37,12 +37,18 @@ router.post('/signup', async (ctx, next) => {
         data: 2
       }
     } else {
-      let base64Data = user.avator.replace(/^data:image\/\w+;base64,/);
+      let base64Data = user.avator.replace(/^data:image\/\w+;base64,/, '');
       let dataBuffer = new Buffer(base64Data, 'base64');
-      let getName = Number(Math.random().toString().substr(3).toString())
-      await fs.writeFile('./public/images/' + getName + '.png', dataBuffer, err => {
-        if (err) throw err
-        console.log('头像上传成功')
+      let getName = Number(Math.random().toString().substr(3).toString() + Date.now())
+      await new Promise((resolve, reject) => {
+        fs.writeFile('./public/images/' + getName + '.png', dataBuffer, err => {
+          if (err) {
+            throw err
+            reject(false)
+          }
+          resolve(true)
+          console.log('头像上传成功')
+        })
       })
       await userModel.insertData([user.name, md5(user.pass), getName, moment().format('YYYY-MM')]).then(res => {
         console.log('注册成功', res)
