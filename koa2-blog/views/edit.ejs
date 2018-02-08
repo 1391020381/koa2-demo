@@ -1,3 +1,46 @@
 <%- include("header",{type:'edit'}) %>
-edit
+<div class="container">
+  <form style="widdth:100%" method="post" class="form create">
+    <div>
+      <label>标题:</label>
+      <input placeholder="请输入标题" type="text" name="title" value="<%- posts[0].title %>">
+    </div>
+    <div>
+      <label>内容:</label>
+      <textarea placeholder="请输入内容" name="content" id="" cols="42" rows="10">
+        <%= posts[0].content %>
+      </textarea>
+    </div>
+    <div class="submit">
+      发表
+    </div>
+  </form>
+</div>
+<script>
+  $('.submit').click(() => {
+    if ($('input[name=title]').val().trim() === '') {
+      fade('请输入标题')
+    } else if ($('textarea').val().trim() === '') {
+      fade('请输入内容')
+    } else {
+      $.ajax({
+        url: '/edit/+<%- posts[0].id %>',
+        data: $('.form').serialize(),
+        type: 'POST',
+        cache: false,
+        dataType: 'json',
+        success: function (msg) {
+          if (!msg) {
+            fade('修改失败')
+          } else {
+            fade('修改成功')
+            setTimeout(() => {
+              window.location.href = '/posts+<%- posts[0].id %>'
+            }, 1500)
+          }
+        }
+      })
+    }
+  })
+</script>
 <% include footer %>

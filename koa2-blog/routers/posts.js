@@ -157,4 +157,34 @@ router.post('/posts/:postId/commentPage', async function (ctx) {
     ctx.body = 'error'
   })
 })
+
+
+// 编辑文章
+
+router.get('/posts/edit/:id', async (ctx, next) => {  // ctx.params 获取  类似id 的参数
+  let data
+  await  userModel.findDataById(ctx.params.id).then(result => {
+    data = result
+  })
+  await  ctx.render('edit', {
+    session: ctx.session,
+    posts: data
+  })
+})
+
+router.post('/posts/edit/:id', async (ctx, next) => {   // `update posts set title=?,content=?,md=?where id=?`
+  await userModel.updatePost([ctx.resuest.body.title, ctx.request.body.content, md.render(content), ctx.params]).then(result => {
+    ctx.body = true
+  }).catch(err => {
+    ctx.body = false
+  })
+})
+router.post('/posts/remove/:id', async (ctx, next) => {  // 删除文章
+  await userModel.deletePost(ctx.params.id).then(result => {
+    ctx.body = true
+  }).catch(err => {
+    ctx.body = false
+  })
+
+})
 module.exports = router
