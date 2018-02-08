@@ -24,7 +24,7 @@
       fade('请输入内容')
     } else {
       $.ajax({
-        url: '/edit/+<%- posts[0].id %>',
+        url: '/posts/edit/<%- posts[0].id %>',
         data: $('.form').serialize(),
         type: 'POST',
         cache: false,
@@ -35,7 +35,7 @@
           } else {
             fade('修改成功')
             setTimeout(() => {
-              window.location.href = '/posts+<%- posts[0].id %>'
+              window.location.href = '/posts<%- posts[0].id %>'
             }, 1500)
           }
         }

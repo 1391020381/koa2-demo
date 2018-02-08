@@ -173,7 +173,7 @@ router.get('/posts/edit/:id', async (ctx, next) => {  // ctx.params 获取  类�
 })
 
 router.post('/posts/edit/:id', async (ctx, next) => {   // `update posts set title=?,content=?,md=?where id=?`
-  await userModel.updatePost([ctx.resuest.body.title, ctx.request.body.content, md.render(content), ctx.params]).then(result => {
+  await userModel.updatePost([ctx.request.body.title, ctx.request.body.content, md.render(ctx.request.body.content), ctx.params]).then(result => {
     ctx.body = true
   }).catch(err => {
     ctx.body = false
@@ -185,6 +185,13 @@ router.post('/posts/remove/:id', async (ctx, next) => {  // 删除文章
   }).catch(err => {
     ctx.body = false
   })
-
+})
+router.post('/comment/remove/:id', async (ctx, next) => {  // 删除评论
+  console.log('id:', ctx.params.id)
+  await userModel.deleteComment(ctx.params.id).then(result => {
+    ctx.body = true
+  }).catch(err => {
+    ctx.body = false
+  })
 })
 module.exports = router

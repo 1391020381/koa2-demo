@@ -164,7 +164,7 @@
   // 删除评论
   function delete_comment (id) {
     $.ajax({
-      url: "<%= posts.id %>/comment/" + id + "/remove",
+      url: `/comment/remove/${id}`,
       type: 'POST',
       cache: false,
       success: function (msg) {
