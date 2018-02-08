@@ -136,7 +136,7 @@ router.post('/:postId', async (ctx, next) => {
     avator = res[0].avator
   })
   await  userModel.insertComment([name, md.render(content), time, postId, avator])
-  await userModel.findCommentById(postId).then(result => {
+  await userModel.findDataById(postId).then(result => {
     res_comments = parseInt(result[0].comments)
     res_comments += 1
   })

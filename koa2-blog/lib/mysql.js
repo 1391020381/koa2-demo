@@ -13,13 +13,13 @@ const pool = mysql.createPool({
   password: config.database.PASSWORD,
   database: config.database.DATABASE
 })
-let query = function (sql, values) {
+let query = function (sql, value) {
   return new Promise((resolve, reject) => {
     pool.getConnection((err, connection) => {
       if (err) {
         reject(err)
       } else {
-        connection.query(sql, values, (err, rows) => {
+        connection.query(sql, value, (err, rows) => {
           if (err) {
             reject(err)
           } else {
@@ -140,7 +140,7 @@ let insertPost = function (value) {
 // 更新文章评论数
 let updatePostComment = function (value) {
   let _sql = `update posts set comments=? where id=?`
-  return query(_sql)
+  return query(_sql, value)
 }
 // 更新浏览数
 
@@ -200,9 +200,9 @@ let findPostByUserPage = function (name, page) {   // ES6字符串模板  ${(pag
   return query(_sql)
 }
 // 更新修改文章
-let updatePost = function (values) {
+let updatePost = function (value) {
   let _sql = `update posts set title=?,content=?,md=?where id=?`
-  return query(_sql, values)
+  return query(_sql, value)
 }
 
 // 删除文章
